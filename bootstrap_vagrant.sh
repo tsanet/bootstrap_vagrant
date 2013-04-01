@@ -1,6 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 
-INSTALL_DIR=/usr/local/bin
 SCRIPT_NAME=aws
 PATH_TO_SCRIPT=$INSTALL_DIR/$SCRIPT_NAME
 
@@ -25,13 +24,13 @@ wait_input "Antes de iniciar, favor verificar se você tem o curl e o vagrant in
 log "Fetching AWS scripts..."
 curl https://raw.github.com/timkay/aws/master/aws -o $SCRIPT_NAME
 
+wait_input "Por favor colocar suas credenciais dentro deste arquivo..."
+$EDITOR ~/.awssecret
+
 log "Installing AWS scripts..."
 mv -f $SCRIPT_NAME $INSTALL_DIR
 chmod 700 $PATH_TO_SCRIPT
 cd $INSTALL_DIR && perl $SCRIPT_NAME --install
-
-wait_input "Por favor colocar suas credenciais dentro deste arquivo..."
-$EDITOR ~/.awssecret
 
 log "Efetuando download de máquina virtual..."
 mkdir -p $VAGRANT_DIR && cd $VAGRANT_DIR
