@@ -8,13 +8,13 @@ VAGRANT_BASE_NAME=base_centos
 
 VAGRANT_DIR=~/vagrant
 
-function wait_input(){
+wait_input(){
     echo $1
     echo "Pressione qualquer tecla para continuar..."
     read
 }
 
-function log(){
+log(){
     echo
     echo $1
     echo
