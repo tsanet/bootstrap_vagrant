@@ -4,6 +4,8 @@ INSTALL_DIR=/usr/local/bin
 SCRIPT_NAME=aws
 PATH_TO_SCRIPT=$INSTALL_DIR/$SCRIPT_NAME
 
+VAGRANT_BASE_NAME=base_centos
+
 VAGRANT_DIR=~/vagrant
 
 function wait_input(){
@@ -29,7 +31,7 @@ chmod 700 $PATH_TO_SCRIPT
 cd $INSTALL_DIR && perl $SCRIPT_NAME --install
 
 wait_input "Por favor colocar suas credenciais dentro deste arquivo..."
-vim ~/.awssecret
+$EDITOR ~/.awssecret
 
 log "Efetuando download de máquina virtual..."
 mkdir -p $VAGRANT_DIR && cd $VAGRANT_DIR
@@ -43,7 +45,7 @@ else
 fi
 
 log "Instalando box da máquina virtual..."
-vagrant box add base_centos package.box
+vagrant box add $VAGRANT_BASE_NAME package.box
 
 returncode=$?
 
