@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#install_dir deve ser setado em diretório que não requira acesso de root e que esteja setada no PATH
-INSTALL_DIR=/usr/local/bin
 SCRIPT_NAME=aws
 PATH_TO_SCRIPT=$INSTALL_DIR/$SCRIPT_NAME
 
