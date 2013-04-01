@@ -8,4 +8,7 @@ Dependências
 * curl
 * vagrant
 
-Setar variável de ambiente $AWS_BUCKET de onde os arquivos do vagrant serão baixados.
+Observações:
+* Setar variável de ambiente $AWS_BUCKET de onde os arquivos do vagrant serão baixados.
+* Setar variável $EDITOR com seu editor preferido de textos
+* Setar a variável INSTALL_DIR com pasta que possua permissão para seu usuário e que esteja no PATH
