@@ -1,6 +1,5 @@
 #!/bin/bash
 
-INSTALL_DIR=/usr/local/bin
 SCRIPT_NAME=aws
 PATH_TO_SCRIPT=$INSTALL_DIR/$SCRIPT_NAME
 AWS_SECRET=~/.awssecret
@@ -22,28 +21,40 @@ function log(){
 }
 
 clear
-wait_input "Antes de iniciar, favor verificar se você tem o curl e o vagrant instalados na sua máquina e set a variável de ambiente \$AWS_BUCKET"
+
+if [ ! "$AWS_BUCKET" ]; then
+    log "Falha! Variável \$AWS_BUCKET não está setada. Favor providenciar"
+    exit 1
+fi
+
+if [ ! "$INSTALL_DIR" ]; then
+    log "Falha! Variável \$INSTALL_DIR não está setada. Favor providenciar"
+    exit 1
+fi
+
+if [ ! "$EDITOR" ]; then
+    log "Falha! Variável \$EDITOR não está setada. Favor providenciar"
+    exit 1
+fi
+
+wait_input "Antes de iniciar, favor verificar se você tem o curl e o vagrant instalados na sua máquina e set as variáveis de ambiente \$AWS_BUCKET e \$INSTALL_DIR"
 log "Fetching AWS scripts..."
 curl https://raw.github.com/timkay/aws/master/aws -o $SCRIPT_NAME
+
+wait_input "Por favor colocar suas credenciais dentro deste arquivo..."
+$EDITOR $AWS_SECRET
+wait_input "Pressione qualquer tecla para continuar..."
 
 log "Installing AWS scripts..."
 mv -f $SCRIPT_NAME $INSTALL_DIR
 chmod 600 $AWS_SECRET
 cd $INSTALL_DIR && perl $SCRIPT_NAME --install
 
-wait_input "Por favor colocar suas credenciais dentro deste arquivo..."
-$EDITOR $AWS_SECRET
-
-log "Efetuando download de máquina virtual..."
+log "Efetuando download da máquina virtual..."
 mkdir -p $VAGRANT_DIR && cd $VAGRANT_DIR
 
-if [ "$AWS_BUCKET" ]; then
-    s3get $AWS_BUCKET/Vagrantfile Vagrantfile
-    s3get $AWS_BUCKET/package.box package.box
-else
-    log "Falha! Variável \$AWS_BUCKET não está setada. Favor providenciar"
-    exit 1
-fi
+s3get $AWS_BUCKET/Vagrantfile Vagrantfile
+s3get $AWS_BUCKET/package.box package.box
 
 log "Instalando box da máquina virtual..."
 vagrant box add $VAGRANT_BASE_NAME package.box
