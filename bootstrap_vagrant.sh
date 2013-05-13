@@ -4,7 +4,7 @@ SCRIPT_NAME=aws
 PATH_TO_SCRIPT=$INSTALL_DIR/$SCRIPT_NAME
 AWS_SECRET=~/.awssecret
 
-VAGRANT_BASE_NAME=base_centos
+VAGRANT_BASE_NAME=cerberus
 
 VAGRANT_DIR=~/vagrant
 
@@ -54,10 +54,10 @@ log "Efetuando download da máquina virtual..."
 mkdir -p $VAGRANT_DIR && cd $VAGRANT_DIR
 
 s3get $AWS_BUCKET/Vagrantfile Vagrantfile
-s3get $AWS_BUCKET/package.box package.box
+s3get $AWS_BUCKET/cerberus.box cerberus.box
 
 log "Instalando box da máquina virtual..."
-vagrant box add $VAGRANT_BASE_NAME package.box
+vagrant box add $VAGRANT_BASE_NAME cerberus.box
 
 returncode=$?
 
